@@ -1,0 +1,36 @@
+version: "3"
+services:
+  mysql001:
+    image: mysql
+    ports:
+      - "2001:3306"
+      - "9001:8080"
+    environment:
+      - MYSQL_ROOT_PASSWORD=pwd
+    volumes:
+      - $PWD/data/mysql001:/var/lib/mysql
+      - $PWD/conf/mysql001:/etc/mysql/conf.d
+  mysql002:
+    image: mysql
+    ports:
+      - "2002:3306"
+      - "9002:8080"
+    links:
+      - mysql001
+    environment:
+      - MYSQL_ROOT_PASSWORD=pwd
+    volumes:
+      - $PWD/data/mysql002:/var/lib/mysql
+      - $PWD/conf/mysql002:/etc/mysql/conf.d
+  router001:
+    image: mysql/mysql-router
+    volumes:
+    - $PWD/data/router001:/data/
+    - $PWD/conf/router001:/conf
+    ports:
+      - "3001:7001"
+      - "3002:7002"
+    links:
+      - mysql001
+      - mysql002
+    entrypoint: ["mysqlrouter", "--config=/conf/router.cnf"]

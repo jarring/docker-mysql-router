@@ -1,0 +1,26 @@
+[DEFAULT]
+logging_folder                  =/data/router/run/
+plugin_folder                   =/usr/lib64/mysqlrouter
+runtime_folder                  =/data/router/run/
+config_folder                   =/data/router/etc/
+
+[logger]
+level                           =debug
+
+[routing:rw]
+bind_address                    =0.0.0.0:7001
+connect_timeout                 =2
+mode                            =read-write
+max_connections                 =256
+max_connect_errors              =1000
+client_connect_timeout          =2
+destinations                    =mysql001:3306
+
+[routing:ro]
+bind_address                    =0.0.0.0:7002
+connect_timeout                 =2
+mode                            =read-only
+max_connections                 =256
+max_connect_errors              =1000
+client_connect_timeout          =2
+destinations                    =mysql001:3306,mysql002:3306

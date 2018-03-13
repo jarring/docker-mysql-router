@@ -1,0 +1,5 @@
+[mysqld]
+log-bin=mysql-bin
+relay_log=relay-log
+server-id=1
+
